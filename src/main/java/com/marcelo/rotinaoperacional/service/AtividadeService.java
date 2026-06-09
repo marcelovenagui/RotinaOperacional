@@ -18,4 +18,9 @@ public class AtividadeService {
     public List<Atividade> listarTodas() {
         return repository.findAll();
     }
+
+    public Atividade salvar(Atividade atividade) {
+        return repository.save(atividade);
+    }
+
 }
