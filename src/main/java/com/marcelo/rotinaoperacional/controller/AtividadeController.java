@@ -2,10 +2,10 @@ package com.marcelo.rotinaoperacional.controller;
 
 import com.marcelo.rotinaoperacional.model.Atividade;
 import com.marcelo.rotinaoperacional.service.AtividadeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.List;
 
@@ -33,5 +33,18 @@ public class AtividadeController {
         System.out.println("================================");
 
         return service.salvar(atividade);
+    }
+
+    @DeleteMapping("/atividades/{id}")
+    public void excluir(@PathVariable Long id) {
+        service.excluir(id);
+    }
+
+    @PutMapping("/atividades/{id}")
+    public Atividade atualizar(
+            @PathVariable Long id,
+            @RequestBody Atividade atividade) {
+
+        return service.atualizar(id, atividade);
     }
 }

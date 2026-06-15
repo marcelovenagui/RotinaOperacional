@@ -23,4 +23,20 @@ public class AtividadeService {
         return repository.save(atividade);
     }
 
+    public void excluir(Long id) {
+        repository.deleteById(id);
+    }
+
+    public Atividade atualizar(Long id, Atividade atividadeAtualizada) {
+
+        Atividade atividade = repository.findById(id)
+                .orElseThrow();
+
+        atividade.setDescricao(atividadeAtualizada.getDescricao());
+        atividade.setStatus(atividadeAtualizada.getStatus());
+        atividade.setObservacao(atividadeAtualizada.getObservacao());
+
+        return repository.save(atividade);
+    }
+
 }
