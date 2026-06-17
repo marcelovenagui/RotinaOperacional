@@ -6,6 +6,37 @@
     Nova Atividade
   </button>
 
+  <!-- FORMULÁRIO -->
+
+  <div class="formulario">
+
+    <input
+  type="text"
+  placeholder="Descrição"
+  [(ngModel)]="novaAtividade.descricao">
+
+<input
+  type="text"
+  placeholder="Status"
+  [(ngModel)]="novaAtividade.status">
+
+<input
+  type="text"
+  placeholder="Observação"
+  [(ngModel)]="novaAtividade.observacao">
+
+    <button (click)="salvar()">
+        Salvar
+    </button>
+
+  </div>
+
+  <p>{{ novaAtividade.descricao }}</p>
+<p>{{ novaAtividade.status }}</p>
+<p>{{ novaAtividade.observacao }}</p>
+
+  <!-- LISTA DE ATIVIDADES -->
+
   <div class="card" *ngFor="let atividade of atividades">
 
     <h3>{{ atividade.descricao }}</h3>

@@ -14,4 +14,8 @@ export class AtividadeService {
   listarTodas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  salvar(atividade: any): Observable<any> {
+  return this.http.post(this.apiUrl, atividade);
+}
 }
