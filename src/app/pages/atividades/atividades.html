@@ -1,3 +1,31 @@
-<h1>Rotina Operacional</h1>
+<div class="container">
 
-<p>Sistema de Monitoramento</p>
+  <h1>Rotina Operacional</h1>
+
+  <button class="btn-nova">
+    Nova Atividade
+  </button>
+
+  <div class="card" *ngFor="let atividade of atividades">
+
+    <h3>{{ atividade.descricao }}</h3>
+
+    <p>
+      Status: {{ atividade.status }}
+    </p>
+
+    <p>
+      {{ atividade.observacao }}
+    </p>
+
+    <button class="btn-delete">
+      Delete
+    </button>
+
+    <button class="btn-edit">
+      Editar
+    </button>
+
+  </div>
+
+</div>
