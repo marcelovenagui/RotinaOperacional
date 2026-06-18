@@ -18,4 +18,7 @@ export class AtividadeService {
   salvar(atividade: any): Observable<any> {
   return this.http.post(this.apiUrl, atividade);
 }
+excluir(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+}
 }

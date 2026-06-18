@@ -31,25 +31,46 @@ export class Atividades implements OnInit {
 
 salvar(): void {
 
-    this.atividadeService
-      .salvar(this.novaAtividade)
-      .subscribe(() => {
+  console.log('BOTAO CLICADO');
+  console.log(this.novaAtividade);
 
-        this.atividadeService
-          .listarTodas()
-          .subscribe(dados => {
-            this.atividades = dados;
-          });
+  this.atividadeService
+    .salvar(this.novaAtividade)
+    .subscribe(() => {
 
-        this.novaAtividade = {
-          descricao: '',
-          status: '',
-          observacao: ''
-        };
+      console.log('SALVOU');
 
-      });
+      this.atividadeService
+        .listarTodas()
+        .subscribe(dados => {
+          this.atividades = dados;
+        });
 
-  }
+      this.novaAtividade = {
+        descricao: '',
+        status: '',
+        observacao: ''
+      };
+
+    });
+}
+
+excluir(id: number): void {
+
+  this.atividadeService
+    .excluir(id)
+    .subscribe(() => {
+
+      this.atividadeService
+        .listarTodas()
+        .subscribe(dados => {
+          this.atividades = dados;
+        });
+
+    });
+
+}
+
 
 }
 

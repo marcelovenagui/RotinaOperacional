@@ -49,9 +49,11 @@
       {{ atividade.observacao }}
     </p>
 
-    <button class="btn-delete">
-      Delete
-    </button>
+    <button
+  class="btn-delete"
+  (click)="excluir(atividade.id)">
+  Delete
+</button>
 
     <button class="btn-edit">
       Editar
