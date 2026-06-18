@@ -21,4 +21,7 @@ export class AtividadeService {
 excluir(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}/${id}`);
 }
+atualizar(id: number, atividade: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, atividade);
+}
 }

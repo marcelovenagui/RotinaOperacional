@@ -70,7 +70,39 @@ excluir(id: number): void {
     });
 
 }
+editandoId: number | null = null;
+editar(atividade: any): void {
 
+  this.novaAtividade = {
+    descricao: atividade.descricao,
+    status: atividade.status,
+    observacao: atividade.observacao
+  };
 
+  this.editandoId = atividade.id;
+}
+atualizar(): void {
+
+  if (this.editandoId === null) return;
+
+  this.atividadeService
+    .atualizar(this.editandoId, this.novaAtividade)
+    .subscribe(() => {
+
+      this.atividadeService
+        .listarTodas()
+        .subscribe(dados => {
+          this.atividades = dados;
+        });
+
+      this.novaAtividade = {
+        descricao: '',
+        status: '',
+        observacao: ''
+      };
+
+      this.editandoId = null;
+    });
+}
 }
 

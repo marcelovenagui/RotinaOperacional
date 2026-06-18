@@ -25,9 +25,17 @@
   placeholder="Observação"
   [(ngModel)]="novaAtividade.observacao">
 
-    <button (click)="salvar()">
-        Salvar
-    </button>
+    <button
+  *ngIf="editandoId === null"
+  (click)="salvar()">
+  Salvar
+</button>
+
+<button
+  *ngIf="editandoId !== null"
+  (click)="atualizar()">
+  Atualizar
+</button>
 
   </div>
 
@@ -55,9 +63,11 @@
   Delete
 </button>
 
-    <button class="btn-edit">
-      Editar
-    </button>
+    <button
+  class="btn-edit"
+  (click)="editar(atividade)">
+  Editar
+</button>
 
   </div>
 
