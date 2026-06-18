@@ -72,6 +72,12 @@ select {
   outline: none;
 }
 
+input:focus,
+select:focus {
+  border: 1px solid #2563eb;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.3);
+}
+
 .input-busca,
 .filtro {
   margin-bottom: 14px;
@@ -149,22 +155,35 @@ select {
   font-weight: 600;
 }
 
-.btn-nova:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+/* HOVER SUAVE */
+
+.btn-nova,
+.btn-salvar,
+.btn-delete,
+.btn-edit {
+  transition: background 0.2s ease,
+              filter 0.2s ease,
+              box-shadow 0.2s ease;
 }
 
+.btn-nova:hover,
 .btn-salvar:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 0 18px rgba(37, 99, 235, 0.45);
 }
 
 .btn-delete:hover {
   background: linear-gradient(135deg, #ff5a5a, #b91c1c);
-  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.35);
 }
 
 .btn-edit:hover {
   background: linear-gradient(135deg, #64748b, #475569);
-  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(100, 116, 139, 0.35);
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s ease;
 }
