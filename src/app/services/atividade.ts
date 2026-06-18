@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Atividade } from '../models/atividade';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +12,19 @@ export class AtividadeService {
 
   constructor(private http: HttpClient) {}
 
-  listarTodas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  listarTodas(): Observable<Atividade[]> {
+    return this.http.get<Atividade[]>(this.apiUrl);
   }
 
-  salvar(atividade: any): Observable<any> {
-  return this.http.post(this.apiUrl, atividade);
-}
-excluir(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${id}`);
-}
-atualizar(id: number, atividade: any): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, atividade);
-}
+  salvar(atividade: Atividade): Observable<Atividade> {
+    return this.http.post<Atividade>(this.apiUrl, atividade);
+  }
+
+  atualizar(id: number, atividade: Atividade): Observable<Atividade> {
+    return this.http.put<Atividade>(`${this.apiUrl}/${id}`, atividade);
+  }
+
+  excluir(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AtividadeService } from '../../services/atividade';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AtividadeService } from '../../services/atividade';
+import { Atividade } from '../../models/atividade';
 
 @Component({
   selector: 'app-atividades',
@@ -12,97 +13,112 @@ import { FormsModule } from '@angular/forms';
 })
 export class Atividades implements OnInit {
 
-  atividades: any[] = [];
+  atividades: Atividade[] = [];
 
-  novaAtividade = {
+  novaAtividade: Atividade = {
     descricao: '',
-    status: '',
+    status: 'PENDENTE',
     observacao: ''
   };
+
+  editandoId: number | null = null;
+  mostrarFormulario = false;
+  filtroStatus = 'TODOS';
+  busca = '';
 
   constructor(private atividadeService: AtividadeService) {}
 
   ngOnInit(): void {
+    this.carregarAtividades();
+  }
+
+  carregarAtividades(): void {
     this.atividadeService.listarTodas().subscribe(dados => {
       this.atividades = dados;
-      console.log(dados);
     });
-  };
+  }
 
-salvar(): void {
+  processando = false;
 
-  console.log('BOTAO CLICADO');
-  console.log(this.novaAtividade);
-
-  this.atividadeService
-    .salvar(this.novaAtividade)
-    .subscribe(() => {
-
-      console.log('SALVOU');
-
-      this.atividadeService
-        .listarTodas()
-        .subscribe(dados => {
-          this.atividades = dados;
-        });
-
-      this.novaAtividade = {
-        descricao: '',
-        status: '',
-        observacao: ''
-      };
-
-    });
+  salvar(): void {
+  this.atividadeService.salvar(this.novaAtividade).subscribe({
+    next: () => {
+      this.carregarAtividades();
+      this.limparFormulario();
+      this.mostrarFormulario = false;
+    },
+    error: (erro) => {
+      console.log('Erro ao salvar:', erro);
+    }
+  });
 }
 
-excluir(id: number): void {
+  editar(atividade: Atividade): void {
+    this.novaAtividade = {
+      descricao: atividade.descricao,
+      status: atividade.status,
+      observacao: atividade.observacao
+    };
 
-  this.atividadeService
-    .excluir(id)
-    .subscribe(() => {
+    this.editandoId = atividade.id ?? null;
+    this.mostrarFormulario = true;
+  }
 
-      this.atividadeService
-        .listarTodas()
-        .subscribe(dados => {
-          this.atividades = dados;
-        });
-
-    });
-
-}
-editandoId: number | null = null;
-editar(atividade: any): void {
-
-  this.novaAtividade = {
-    descricao: atividade.descricao,
-    status: atividade.status,
-    observacao: atividade.observacao
-  };
-
-  this.editandoId = atividade.id;
-}
-atualizar(): void {
-
+  atualizar(): void {
   if (this.editandoId === null) return;
 
-  this.atividadeService
-    .atualizar(this.editandoId, this.novaAtividade)
-    .subscribe(() => {
-
-      this.atividadeService
-        .listarTodas()
-        .subscribe(dados => {
-          this.atividades = dados;
-        });
-
-      this.novaAtividade = {
-        descricao: '',
-        status: '',
-        observacao: ''
-      };
-
+  this.atividadeService.atualizar(this.editandoId, this.novaAtividade).subscribe({
+    next: () => {
+      this.carregarAtividades();
+      this.limparFormulario();
       this.editandoId = null;
-    });
-}
+      this.mostrarFormulario = false;
+    },
+    error: (erro) => {
+      console.log('Erro ao atualizar:', erro);
+    }
+  });
 }
 
+  excluir(id: number): void {
+    this.atividadeService.excluir(id).subscribe(() => {
+      this.carregarAtividades();
+    });
+  }
+
+  limparFormulario(): void {
+    this.novaAtividade = {
+      descricao: '',
+      status: 'PENDENTE',
+      observacao: ''
+    };
+  }
+
+  get atividadesFiltradas(): Atividade[] {
+    let lista = this.atividades;
+
+    if (this.filtroStatus !== 'TODOS') {
+      lista = lista.filter(a => a.status === this.filtroStatus);
+    }
+
+    if (this.busca.trim() !== '') {
+      lista = lista.filter(a =>
+        a.descricao.toLowerCase().includes(this.busca.toLowerCase())
+      );
+    }
+
+    return lista;
+  }
+
+  get totalAtividades(): number {
+    return this.atividades.length;
+  }
+
+  get totalConcluidas(): number {
+    return this.atividades.filter(a => a.status === 'CONCLUIDO').length;
+  }
+
+  get totalPendentes(): number {
+    return this.atividades.filter(a => a.status === 'PENDENTE').length;
+  }
+}

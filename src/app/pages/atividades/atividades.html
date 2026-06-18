@@ -2,36 +2,50 @@
 
   <h1>Rotina Operacional</h1>
 
-  <button class="btn-nova">
+  <div class="dashboard">
+    <div class="dashboard-card">
+      <h2>{{ totalAtividades }}</h2>
+      <p>Total</p>
+    </div>
+
+    <div class="dashboard-card">
+      <h2>{{ totalConcluidas }}</h2>
+      <p>Concluídas</p>
+    </div>
+
+    <div class="dashboard-card">
+      <h2>{{ totalPendentes }}</h2>
+      <p>Pendentes</p>
+    </div>
+  </div>
+
+  <button type="button" class="btn-nova" (click)="mostrarFormulario = !mostrarFormulario">
     Nova Atividade
   </button>
 
-  <!-- FORMULÁRIO -->
+  <div class="formulario" *ngIf="mostrarFormulario">
 
-  <div class="formulario">
+    <input type="text" placeholder="Descrição" [(ngModel)]="novaAtividade.descricao">
 
-    <input
-  type="text"
-  placeholder="Descrição"
-  [(ngModel)]="novaAtividade.descricao">
+    <select [(ngModel)]="novaAtividade.status">
+      <option value="PENDENTE">Pendente</option>
+      <option value="EM_ANDAMENTO">Em andamento</option>
+      <option value="CONCLUIDO">Concluído</option>
+    </select>
 
-<input
-  type="text"
-  placeholder="Status"
-  [(ngModel)]="novaAtividade.status">
-
-<input
-  type="text"
-  placeholder="Observação"
-  [(ngModel)]="novaAtividade.observacao">
+    <input type="text" placeholder="Observação" [(ngModel)]="novaAtividade.observacao">
 
     <button
+  type="button"
+  class="btn-salvar"
   *ngIf="editandoId === null"
   (click)="salvar()">
   Salvar
 </button>
 
-<button
+    <button
+  type="button"
+  class="btn-salvar"
   *ngIf="editandoId !== null"
   (click)="atualizar()">
   Atualizar
@@ -39,35 +53,38 @@
 
   </div>
 
-  <p>{{ novaAtividade.descricao }}</p>
-<p>{{ novaAtividade.status }}</p>
-<p>{{ novaAtividade.observacao }}</p>
+  <input type="text" class="input-busca" placeholder="Buscar atividade..." [(ngModel)]="busca">
 
-  <!-- LISTA DE ATIVIDADES -->
+  <select class="filtro" [(ngModel)]="filtroStatus">
+    <option value="TODOS">Todas</option>
+    <option value="PENDENTE">Pendentes</option>
+    <option value="EM_ANDAMENTO">Em andamento</option>
+    <option value="CONCLUIDO">Concluídas</option>
+  </select>
 
-  <div class="card" *ngFor="let atividade of atividades">
+  <div class="card" *ngFor="let atividade of atividadesFiltradas">
 
     <h3>{{ atividade.descricao }}</h3>
 
-    <p>
-      Status: {{ atividade.status }}
-    </p>
+    <span
+      class="status"
+      [ngClass]="{
+        'pendente': atividade.status === 'PENDENTE',
+        'andamento': atividade.status === 'EM_ANDAMENTO',
+        'concluido': atividade.status === 'CONCLUIDO'
+      }">
+      {{ atividade.status }}
+    </span>
 
-    <p>
-      {{ atividade.observacao }}
-    </p>
+    <p>{{ atividade.observacao }}</p>
 
-    <button
-  class="btn-delete"
-  (click)="excluir(atividade.id)">
-  Delete
-</button>
+    <button type="button" class="btn-delete" (click)="excluir(atividade.id!)">
+      Delete
+    </button>
 
-    <button
-  class="btn-edit"
-  (click)="editar(atividade)">
-  Editar
-</button>
+    <button type="button" class="btn-edit" (click)="editar(atividade)">
+      Editar
+    </button>
 
   </div>
 
