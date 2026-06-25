@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/atividades")
 public class AtividadeController {
 
     private final AtividadeService service;
@@ -18,29 +20,22 @@ public class AtividadeController {
         this.service = service;
     }
 
-    @GetMapping("/atividades")
+    @GetMapping
     public List<Atividade> listarTodas() {
         return service.listarTodas();
     }
 
-    @PostMapping("/atividades")
+    @PostMapping
     public Atividade salvar(@RequestBody Atividade atividade) {
-
-        System.out.println("================================");
-        System.out.println("Descricao: " + atividade.getDescricao());
-        System.out.println("Status: " + atividade.getStatus());
-        System.out.println("Observacao: " + atividade.getObservacao());
-        System.out.println("================================");
-
         return service.salvar(atividade);
     }
 
-    @DeleteMapping("/atividades/{id}")
+    @DeleteMapping("/{id}")
     public void excluir(@PathVariable Long id) {
         service.excluir(id);
     }
 
-    @PutMapping("/atividades/{id}")
+    @PutMapping("/{id}")
     public Atividade atualizar(
             @PathVariable Long id,
             @RequestBody Atividade atividade) {
