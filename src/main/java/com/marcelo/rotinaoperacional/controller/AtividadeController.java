@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "https://marcelovenagui.github.io"
+})
 @RequestMapping("/atividades")
 public class AtividadeController {
 
