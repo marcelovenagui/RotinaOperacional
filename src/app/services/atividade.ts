@@ -8,7 +8,7 @@ import { Atividade } from '../models/atividade';
 })
 export class AtividadeService {
 
-  private apiUrl = 'http://localhost:8080/atividades';
+  private apiUrl = 'https://rotinaoperacional.onrender.com/atividades';
 
   constructor(private http: HttpClient) {}
 
